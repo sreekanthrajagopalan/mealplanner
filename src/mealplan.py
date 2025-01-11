@@ -24,6 +24,7 @@ def main():
     }
     limits_num = {"Essential": 3, "Meal": 4, "Snack": 3}
     milk = 100
+    pick_tofu = 1
 
     # initialize math model
     h = highspy.Highs()
@@ -46,6 +47,17 @@ def main():
             )
         )
         == milk
+    )
+
+    ## pick tofu
+    c_pick_tofu = h.addConstr(
+        sum(
+            y_pick[row["Ingredient"]]
+            for row in data.filter(pl.col("Ingredient").str.contains("Tofu")).iter_rows(
+                named=True
+            )
+        )
+        == pick_tofu
     )
 
     ## ingredient limit if picked
