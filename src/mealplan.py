@@ -23,6 +23,7 @@ def main():
         "Protein (gm)": 175,
     }
     limits_num = {"Essential": 3, "Meal": 4, "Snack": 3}
+    milk = 100
 
     # initialize math model
     h = highspy.Highs()
@@ -44,7 +45,7 @@ def main():
                 named=True
             )
         )
-        >= 100
+        == milk
     )
 
     ## ingredient limit if picked
