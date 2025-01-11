@@ -27,6 +27,33 @@ Specify requirements in `data/requirementsN.json`.
 -   Include or exclude any items by specifying the lists `include` or `exclude`, respectively
 -   Provide inclusive and exclusive list of items by specifying the dictionaries `inclusive` and `exclusive`, respectively (see `data/requirements2.json` for an example)
 
+## Optimization
+
+Run `python src/mealplanner.py <nutrients.csv> <requirements.json>`.
+
+For e.g., `python src/mealplanner.py data/nutrients.csv data/requirements2.json` gives the following optimal list of ingredients:
+
+```
+Optimal Ingredients:
+Isopure Protein Powder (gm): 50.0
+Milk (gm): 100.0
+Nonfat Greek Yogurt (gm): 145.3
+Firm Tofu (gm): 200.0
+Rajma (gm): 150.0
+Wheat (gm): 200.0
+Almonds (gm): 50.0
+Walnuts (gm): 46.2
+Sunflower Seeds (gm): 20.0
+Add fruits and vegetables!
+
+Macronutrients:
+Total Calories (kcal): 2500.0
+Carbs (gm): 264.2
+Fat (gm): 86.4
+Fiber (gm): 69.6
+Protein (gm): 170.0
+```
+
 # TODO
 
 -   Replace `data/nutrients.csv` with complete USDA database
