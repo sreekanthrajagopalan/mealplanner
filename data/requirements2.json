@@ -31,11 +31,16 @@
                 "Avocado",
                 "Cheese"
             ]
+        },
+        "Cheese": {
+            "and": [
+                "Sourdough"
+            ]
         }
     },
     "exclusive": {
         "Paneer": {
-            "or": [
+            "and": [
                 "Tofu",
                 "Cheese"
             ]
