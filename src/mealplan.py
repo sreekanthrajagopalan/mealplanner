@@ -11,7 +11,7 @@ def main():
     targets_min = {
         "Total Calories (kcal)": 3000,
         "Carbs (gm)": 200,
-        "Fat (gm)": 80,
+        "Fat (gm)": 60,
         "Fiber (gm)": 40,
         "Protein (gm)": 160,
     }
@@ -25,6 +25,9 @@ def main():
     limits_num = {"Essential": 3, "Meal": 4, "Snack": 3}
     milk = 100
     pick_tofu = 1
+
+    # objective: Carbs, Fat, Total (default)
+    obj = "Fat"
 
     # initialize math model
     h = highspy.Highs()
@@ -103,13 +106,33 @@ def main():
     }
 
     # optimize
-    # h.minimize(sum(x_qty[row["Ingredient"]] for row in data.iter_rows(named=True)))
-    h.minimize(
-        sum(
-            row["Carbs (gm)"] / row["Standard Portion (gm)"] * x_qty[row["Ingredient"]]
-            for row in data.iter_rows(named=True)
+
+    ## min carbs
+    if obj == "Carbs":
+        h.minimize(
+            sum(
+                row["Carbs (gm)"]
+                / row["Standard Portion (gm)"]
+                * x_qty[row["Ingredient"]]
+                for row in data.iter_rows(named=True)
+            )
         )
-    )
+
+    ## min fat
+    elif obj == "Fat":
+        h.minimize(
+            sum(
+                row["Fat (gm)"]
+                / row["Standard Portion (gm)"]
+                * x_qty[row["Ingredient"]]
+                for row in data.iter_rows(named=True)
+            )
+        )
+
+    ## min total quantity
+    else:
+        h.minimize(sum(x_qty[row["Ingredient"]] for row in data.iter_rows(named=True)))
+
     h.run()
 
     solution = h.getSolution()
