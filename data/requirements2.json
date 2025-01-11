@@ -1,0 +1,44 @@
+{
+    "objective": "Calories",
+    "targets_min": {
+        "Total Calories (kcal)": 2500,
+        "Carbs (gm)": 200,
+        "Fat (gm)": 60,
+        "Fiber (gm)": 40,
+        "Protein (gm)": 170
+    },
+    "targets_max": {
+        "Total Calories (kcal)": 3200,
+        "Carbs (gm)": 400,
+        "Fat (gm)": 90,
+        "Fiber (gm)": 70,
+        "Protein (gm)": 175
+    },
+    "type_limits": {
+        "Essential": 3,
+        "Meal": 4,
+        "Snack": 3
+    },
+    "include": [
+        "Milk"
+    ],
+    "exclude": [
+        "Egg"
+    ],
+    "inclusive": {
+        "Sourdough": {
+            "or": [
+                "Avocado",
+                "Cheese"
+            ]
+        }
+    },
+    "exclusive": {
+        "Paneer": {
+            "or": [
+                "Tofu",
+                "Cheese"
+            ]
+        }
+    }
+}
