@@ -1,15 +1,36 @@
 import argparse
 import json
 import highspy
+import openai
+import os
+
 import polars as pl
 
+from dotenv import load_dotenv, find_dotenv
+from typing import Tuple, Dict
 
-def find_ingredients(data_file: str, requirements_file: str) -> None:
-    """Find optimal ingredients by solving a MIP.
+# Load the environment variables from the .env file
+api_key: str
+if find_dotenv():
+    load_dotenv()
+    print("Loaded .env file")
+
+    # Access the OpenAI API key
+    api_key = os.getenv("OPENAI_API_KEY")
+
+else:
+    print(".env file not found")
+
+
+def get_data(data_file: str, requirements_file: str) -> Tuple[pl.DataFrame, Dict]:
+    """Get list of ingredients with macronutrients data and requirements from provided files
 
     Args:
         data_file (str): Path to nutrition data CSV file
         requirements_file (str): Path to requirements JSON file
+
+    Returns:
+        Tuple[pl.DataFrame, Dict]: DataFrame and Dictionary with required data for the model
     """
 
     # get data
@@ -18,6 +39,20 @@ def find_ingredients(data_file: str, requirements_file: str) -> None:
     # get requirements
     with open(requirements_file, "r") as f:
         requirements = json.load(f)
+
+    return (data, requirements)
+
+
+def find_ingredients(data: pl.DataFrame, requirements: Dict) -> Dict:
+    """Find optimal ingredients to meat nutrition requirements
+
+    Args:
+        data (pl.DataFrame): DataFrame with macronutrients data
+        requirements (Dict): Dictionary with macronutrients requirements
+
+    Returns:
+        highspy.Highs: HiGHS MIP model
+    """
 
     # objective: Calories, Carbs, Fat, Total (default)
     obj = requirements["objective"]
@@ -210,27 +245,122 @@ def find_ingredients(data_file: str, requirements_file: str) -> None:
     else:
         h.minimize(sum(x_qty[row["Ingredient"]] for row in data.iter_rows(named=True)))
 
-    h.run()
+    solutions = dict()
+    c_cut = dict()
+    for opt in range(requirements["num_meals"]):
+        # optimize
+        h.run()
 
-    solution = h.getSolution()
-    info = h.getInfo()
-    model_status = h.getModelStatus()
+        # get solution
+        solution = h.getSolution()
+        info = h.getInfo()
+        model_status = h.getModelStatus()
 
-    print(f"\nModel Status = {h.modelStatusToString(model_status)}")
+        if model_status == highspy.HighsModelStatus.kOptimal:
+            solutions[opt + 1] = {
+                "optimal_ingredients": {
+                    f"{row['Ingredient']} (gm)": round(
+                        solution.col_value[x_qty[row["Ingredient"]].index], ndigits=1
+                    )
+                    for row in data.iter_rows(named=True)
+                    if solution.col_value[y_pick[row["Ingredient"]].index] > 0.99
+                },
+                "macronutrients": {
+                    nut: round(solution.row_value[c_targets_min[nut].index], ndigits=1)
+                    for nut in requirements["targets_min"].keys()
+                },
+            }
 
-    print(f"\nOptimal Objective = {info.objective_function_value:.1f}")
-
-    print("\nOptimal Ingredients:")
-    for row in data.iter_rows(named=True):
-        if solution.col_value[y_pick[row["Ingredient"]].index] > 0.99:
-            print(
-                f"{row['Ingredient']} (gm): {solution.col_value[x_qty[row['Ingredient']].index]:.1f}"
+        # add integer cut
+        c_cut[opt] = h.addConstr(
+            sum(
+                (
+                    y_pick[row["Ingredient"]]
+                    if solution.col_value[y_pick[row["Ingredient"]].index] < 0.01
+                    else (1 - y_pick[row["Ingredient"]])
+                )
+                for row in data.iter_rows(named=True)
             )
-    print("Add fruits and vegetables!")
+            >= 1
+        )
 
-    print("\nMacronutrients:")
-    for nut in requirements["targets_min"].keys():
-        print(f"{nut}: {solution.row_value[c_targets_min[nut].index]:.1f}")
+    return solutions
+
+
+def plan_meal(data: pl.DataFrame, requirements: Dict, output_path: str) -> None:
+    """Find optimal meal plan
+
+    Args:
+        data (pl.DataFrame): DataFrame with macronutrients data
+        requirements (Dict): Dictionary with macronutrients requirements
+        output_path (str): Path to save meal plans
+    """
+
+    solutions = find_ingredients(data=data, requirements=requirements)
+    for opt, sol in solutions.items():
+        print(f"\nMeal Plan {opt}:")
+
+        print(f"\nOptimal Ingredients:")
+        for item, val in sol["optimal_ingredients"].items():
+            print(f"{item}: {val}")
+
+        print(f"\nMacronutrients:")
+        for nut, val in sol["macronutrients"].items():
+            print(f"{nut}: {val}")
+    exit()
+
+    # get meal plan using LLM
+    try:
+        client = openai.OpenAI(api_key=api_key)
+        for opt, sol in solutions.items():
+
+            response = client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": f"Find recipes for a drink, breakfast, lunch, afternoon snack, and dinner with following ingredients respecting total weight amount over all the recipes: {sol['optimal_ingredients']} ",
+                            }
+                        ],
+                    }
+                ],
+                response_format={"type": "text"},
+                temperature=1,
+                max_completion_tokens=2048,
+                top_p=1,
+                frequency_penalty=0,
+                presence_penalty=0,
+            )
+
+            try:
+                if not os.path.exists(output_path):
+                    os.makedirs(output_path)
+
+                with open(os.path.join(output_path, f"meal_plan_{opt}.txt"), "w") as f:
+                    f.write(response.choices[0].message.content)
+                print(f"\nCreated meal plan {opt} in {output_path}/meal_plan{opt}.txt")
+
+            except:
+                print(f"\nMeal Plan {opt}")
+                print(response.choices[0].message.content)
+
+    except:
+        print(
+            "Unable to get meal plan from OpenAI. See optimal list of ingredients below."
+        )
+        for opt, sol in solutions.items():
+            print(f"\nMeal Plan {opt}:")
+
+            print(f"\nOptimal Ingredients:")
+            for item, val in sol["optimal_ingredients"].items():
+                print(f"{item}: {val}")
+
+            print(f"\nMacronutrients:")
+            for nut, val in sol["macronutrients"].items():
+                print(f"{nut}: {val}")
 
 
 if __name__ == "__main__":
@@ -241,7 +371,13 @@ if __name__ == "__main__":
     )
     parser.add_argument("data_file", type=str)
     parser.add_argument("requirements_file", type=str)
+    parser.add_argument("output_path", type=str)
     args = parser.parse_args()
 
-    # find optimal ingredients
-    find_ingredients(data_file=args.data_file, requirements_file=args.requirements_file)
+    # get data
+    data, requirements = get_data(
+        data_file=args.data_file, requirements_file=args.requirements_file
+    )
+
+    # get meal plan
+    plan_meal(data=data, requirements=requirements, output_path=args.output_path)

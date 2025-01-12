@@ -1,5 +1,6 @@
 {
     "objective": "Calories",
+    "num_meals": 5,
     "targets_min": {
         "Total Calories (kcal)": 2500,
         "Carbs (gm)": 200,

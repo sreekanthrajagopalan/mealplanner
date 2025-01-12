@@ -1,0 +1,72 @@
+Here's a meal plan using the provided ingredients, respecting the total weight and including a drink, breakfast, lunch, afternoon snack, and dinner.
+
+### Drink: Protein Smoothie
+**Ingredients:**
+- 25 g Isopure Protein Powder
+- 100 g 2% Milk
+- 75 g Nonfat Greek Yogurt
+
+**Instructions:**
+1. In a blender, combine the Isopure Protein Powder, 2% milk, and the Greek yogurt.
+2. Blend until smooth.
+3. Pour into a glass and enjoy.
+
+### Breakfast: Greek Yogurt Parfait
+**Ingredients:**
+- 75 g Nonfat Greek Yogurt
+- 50 g Oats
+- 20 g Pistachios (chopped)
+- 20 g Fig (chopped)
+
+**Instructions:**
+1. In a bowl, layer the Greek yogurt at the bottom.
+2. Add oats on top.
+3. Sprinkle chopped pistachios and figs over the oats.
+4. Serve immediately.
+
+### Lunch: Rajma & Millet Bowl
+**Ingredients:**
+- 100 g Rajma (cooked)
+- 150 g Millet (cooked)
+- 100 g Firm Tofu (cubed and sautéed)
+
+**Instructions:**
+1. Cook the millet according to package instructions. Set aside.
+2. Cook the rajma if not pre-cooked and season to taste.
+3. In a non-stick pan, sauté the cubed firm tofu until golden brown.
+4. In a bowl, combine cooked rajma, millet, and sautéed tofu. Mix well and serve warm.
+
+### Afternoon Snack: Nutty Oatmeal
+**Ingredients:**
+- 50 g Oats
+- 20 g Walnuts (chopped)
+- 200 g 2% Milk
+
+**Instructions:**
+1. In a saucepan, combine oats and 2% milk. Cook until the oatmeal is thick and creamy.
+2. Once cooked, stir in the chopped walnuts.
+3. Serve warm, optionally topped with a splash of honey or fresh fruit if available.
+
+### Dinner: Tofu and Rajma Stir-fry
+**Ingredients:**
+- 100 g Firm Tofu (cubed)
+- 50 g Rajma (cooked)
+- 100 g Vegetables of choice (e.g., bell peppers, broccoli; optional)
+- Spices (cumin, coriander, salt, and pepper to taste)
+
+**Instructions:**
+1. In a pan, heat a little oil and add the cubed tofu. Stir-fry until golden.
+2. Add cooked rajma and vegetables, stirring to combine.
+3. Season with spices to taste and cook for an additional 5-7 minutes until heated through.
+4. Serve warm.
+
+### Total Weight Breakdown:
+- Drink: 50 g
+- Breakfast: 165 g
+- Lunch: 350 g
+- Afternoon Snack: 270 g
+- Dinner: 250 g
+
+**Total Weight: 1085 g**
+
+The specific weight measurements may slightly vary based on exact weights you wish to use, but this plan uses all the ingredients provided while ensuring tasty and balanced meals! Adjust the quantities according to taste and dietary needs.
