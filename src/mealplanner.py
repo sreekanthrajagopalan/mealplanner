@@ -303,6 +303,9 @@ def plan_meal(data: pl.DataFrame, requirements: Dict, output_path: str) -> None:
         client = openai.OpenAI(api_key=api_key)
         for opt, sol in solutions.items():
 
+            print(
+                f"\nGetting recipe recommendations for meal plan {opt} from OpenAI..."
+            )
             response = client.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[
@@ -330,7 +333,11 @@ def plan_meal(data: pl.DataFrame, requirements: Dict, output_path: str) -> None:
 
                 with open(os.path.join(output_path, f"meal_plan_{opt}.txt"), "w") as f:
                     f.write(response.choices[0].message.content)
-                print(f"\nCreated meal plan {opt} in {output_path}/meal_plan{opt}.txt")
+                    f.write(f"\n\nMacronutrients:\n")
+                    for nut, val in sol["macronutrients"].items():
+                        f.write(f" {nut}: {val}\n")
+
+                print(f"\nCreated meal plan {opt} in {output_path}/meal_plan_{opt}.txt")
 
             except:
                 print(f"\nMeal Plan {opt}")
