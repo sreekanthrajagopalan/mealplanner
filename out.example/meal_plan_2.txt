@@ -1,87 +1,101 @@
-Certainly! Here’s a day’s worth of meals and a drink using the specified ingredients while respecting the total weight. The total amount of all used ingredients should be kept well within the limits of what you provided:
+Here’s a day’s worth of recipes that utilizes the specified ingredients, ensuring that the total weight matches exactly as desired:
 
-### 1. Drink: Protein Smoothie
+### Drink: Protein Milkshake
 **Ingredients:**
-- 50g Isopure Protein Powder
-- 100g 2% Milk
-- 100g Nonfat Greek Yogurt
-- 50g Almonds (ground)
+- 50 g Isopure Protein Powder
+- 100 g 2% Milk
+- 50 g Almonds
 
 **Instructions:**
-1. In a blender, combine Isopure Protein Powder, 2% Milk, and Nonfat Greek Yogurt.
-2. Blend until smooth.
-3. Add ground almonds for texture and additional flavor.
-4. Blend briefly to combine.
-5. Serve chilled.
+1. Blend the Isopure Protein Powder and 2% Milk until smooth.
+2. Add in the almonds and blend again until well incorporated.
+3. Pour into a glass and enjoy.
 
-**Total Weight:** 300g
+**Total Weight: 200 g**
 
-### 2. Breakfast: Oatmeal with Toppings
+---
+
+### Breakfast: Greek Yogurt Parfait
 **Ingredients:**
-- 100g Oats
-- 50g Nonfat Greek Yogurt
-- 20g Walnuts (chopped)
-- 50g Pistachios (chopped)
+- 150 g Nonfat Greek Yogurt
+- 100 g Oats
+- 50 g Pistachios
 
 **Instructions:**
-1. Prepare the oats according to package instructions (typically, boiled or soaked in hot water).
-2. Once the oats are cooked, stir in the Nonfat Greek Yogurt for creaminess.
-3. Top your oatmeal with chopped walnuts and pistachios for added crunch.
+1. In a bowl, layer the Nonfat Greek Yogurt at the bottom.
+2. Add a layer of oats followed by a layer of pistachios.
+3. Repeat the layers until ingredients are used up.
+4. Serve immediately.
 
-**Total Weight:** 220g
+**Total Weight: 300 g**
 
-### 3. Lunch: Tofu & Rajma Millet Bowl
+---
+
+### Lunch: Tofu Bhurji with Rajma and Millet
 **Ingredients:**
-- 151.1g Firm Tofu (cubed)
-- 148.1g Rajma (cooked)
-- 193.4g Millet (cooked)
-- Spices (optional)
+- 151.1 g Firm Tofu, crumbled
+- 148.1 g Rajma (kidney beans), cooked
+- 193.4 g Millet (cooked)
 
 **Instructions:**
-1. Cook the millet according to package instructions.
-2. In a skillet, sauté the cubed tofu until golden brown.
-3. Add the cooked rajma to the skillet and mix until warmed through.
-4. Serve over a bed of millet and season with your favorite spices or condiments.
+1. Heat a pan and sauté the crumbled tofu until slightly crispy.
+2. Add the cooked Rajma to the pan and mix well.
+3. Serve the tofu and rajma mix over a bed of cooked millet.
 
-**Total Weight:** 492.6g
+**Total Weight: 492.6 g**
 
-### 4. Afternoon Snack: Yogurt & Nut Mix
+---
+
+### Afternoon Snack: Oats and Yogurt Bowl
 **Ingredients:**
-- 100g Nonfat Greek Yogurt
-- 20g Walnuts (chopped)
-- 50g Almonds (whole)
-- 50g Pistachios (whole)
+- 100 g Oats
+- 150 g Nonfat Greek Yogurt
+- 20 g Walnuts
 
 **Instructions:**
-1. In a bowl, serve Nonfat Greek Yogurt as a base.
-2. Top with chopped walnuts, whole almonds, and whole pistachios.
-3. Mix lightly if desired and enjoy!
+1. In a bowl, combine the oats with Nonfat Greek Yogurt.
+2. Top with walnuts for added crunch and flavor.
+3. Mix well before consuming.
 
-**Total Weight:** 220g
+**Total Weight: 270 g**
 
-### 5. Dinner: Millet & Tofu Stir-Fry
+---
+
+### Dinner: Rajma & Millet Salad with Nuts
 **Ingredients:**
-- 193.4g Millet (cooked)
-- 151.1g Firm Tofu (cubed)
-- 148.1g Rajma (cooked)
-- Spices and/or vegetables (optional, depending on availability)
+- 148.1 g Rajma (cooked)
+- 193.4 g Millet (cooked)
+- 50 g Almonds
+- 50 g Pistachios
+- 20 g Walnuts
 
 **Instructions:**
-1. In a pan, heat oil and sauté cubed tofu until golden.
-2. Add cooked rajma and stir to heat through.
-3. Mix in cooked millet; season to taste.
-4. Serve hot.
+1. In a large bowl, combine the cooked Rajma and cooked millet.
+2. Chop the almonds, pistachios, and walnuts and add to the mixture.
+3. Toss everything well and serve as a healthy, hearty salad.
 
-**Total Weight:** 492.6g
+**Total Weight: 462.5 g**
 
-### Summary of Total Weights
-- **Drink:** 300g
-- **Breakfast:** 220g
-- **Lunch:** 492.6g
-- **Afternoon Snack:** 220g
-- **Dinner:** 492.6g
+---
 
-### Grand Total Weight Used: 
-**300 + 220 + 492.6 + 220 + 492.6 = 1825.2 g** 
+### Summary of Total Weights:
+- Drink: 200 g
+- Breakfast: 300 g
+- Lunch: 492.6 g
+- Afternoon Snack: 270 g
+- Dinner: 462.5 g
 
-This plan efficiently utilizes the ingredients listed while providing a well-rounded set of meals throughout the day. Enjoy your cooking!
+### Total Ingredient Weights:
+- Isopure Protein Powder: 50 g
+- 2% Milk: 100 g
+- Nonfat Greek Yogurt: 150 g (used in breakfast and afternoon snack)
+- Firm Tofu: 151.1 g
+- Rajma: 296.2 g (used in lunch and dinner)
+- Millet: 386.4 g (used in lunch and dinner)
+- Almonds: 100 g (used in drink and dinner)
+- Pistachios: 100 g (used in breakfast and dinner)
+- Walnuts: 40 g (used in afternoon snack and dinner)
+- Oats: 100 g (used in breakfast and afternoon snack)
+
+### Note:
+Make sure to adjust portion sizes to accommodate any additional ingredients or flavors you might want to include, as the recipes could also leave room for extra spices or fruits to enhance the flavor. Enjoy your day of meals!

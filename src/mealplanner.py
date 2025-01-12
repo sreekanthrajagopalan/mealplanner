@@ -297,17 +297,6 @@ def plan_meal(data: pl.DataFrame, requirements: Dict, output_path: str) -> None:
     """
 
     solutions = find_ingredients(data=data, requirements=requirements)
-    for opt, sol in solutions.items():
-        print(f"\nMeal Plan {opt}:")
-
-        print(f"\nOptimal Ingredients:")
-        for item, val in sol["optimal_ingredients"].items():
-            print(f"{item}: {val}")
-
-        print(f"\nMacronutrients:")
-        for nut, val in sol["macronutrients"].items():
-            print(f"{nut}: {val}")
-    exit()
 
     # get meal plan using LLM
     try:
@@ -322,7 +311,7 @@ def plan_meal(data: pl.DataFrame, requirements: Dict, output_path: str) -> None:
                         "content": [
                             {
                                 "type": "text",
-                                "text": f"Find recipes for a drink, breakfast, lunch, afternoon snack, and dinner with following ingredients respecting total weight amount over all the recipes: {sol['optimal_ingredients']} ",
+                                "text": f"Find recipes for a drink, breakfast, lunch, afternoon snack, and dinner with following ingredients exactly meeting the total weight amount of each ingredient over all the recipes: {sol['optimal_ingredients']} ",
                             }
                         ],
                     }
