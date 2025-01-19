@@ -15,7 +15,7 @@ Given a database of ingredients with macronutrients information and daily requir
 Use `data/nutrients.csv` and update as needed.
 
 -   Macronutrients information is from [USDA FoodData Central Search](https://fdc.nal.usda.gov/food-search)
--   Specify minimum and maximum portions in grams using `Min Portion (gm)` and `Max Portion (gm)` columns, respectively, if the ingredient is to be selected
+-   Specify availability, minimum, and maximum portions in grams using `Availability`, `Min Portion (gm)`, and `Max Portion (gm)` columns, respectively, if the ingredient is to be selected
 -   Update `Type` as desired (see requirements below)
 
 ## Requirements Data
@@ -33,7 +33,7 @@ Specify requirements in `data/requirements.json`.
 
 Run `python src/mealplanner.py <nutrients.csv> <requirements.json> <output_path>`.
 
-For e.g., `python src/mealplanner.py data/nutrients.csv data/requirements2.json out` gives the following optimal list of ingredients:
+For e.g., `python src/mealplanner.py data/nutrients.csv data/requirements2.json out.example` gives the following optimal list of ingredients:
 
 ### Optimal Ingredients
 
@@ -69,7 +69,7 @@ Creates a list of recipes in files `out/meal_plan_N.txt` using OpenAI API if ava
 # TODO
 
 -   Replace `data/nutrients.csv` with complete USDA database
--   Move minimum and maximum portion size specifications to requirements
+-   Move availability, minimum, and maximum portion size specifications to requirements
 -   Move type specifications to requirements
 -   Include a carbon footprint metric objective
 -   Take existing inventory of ingredients and quantities and order ingredients as needed

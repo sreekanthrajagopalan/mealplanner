@@ -3,6 +3,7 @@ import json
 import highspy
 import openai
 import os
+import shutil
 
 import polars as pl
 
@@ -54,7 +55,7 @@ def find_ingredients(data: pl.DataFrame, requirements: Dict) -> Dict:
         highspy.Highs: HiGHS MIP model
     """
 
-    # objective: Calories, Carbs, Fat, Total (default)
+    # objective: Calories, Carbs, Fat, -Protein, Total (default)
     obj = requirements["objective"]
 
     # initialize math model
@@ -68,6 +69,13 @@ def find_ingredients(data: pl.DataFrame, requirements: Dict) -> Dict:
     y_pick = {row["Ingredient"]: h.addBinary() for row in data.iter_rows(named=True)}
 
     # add constraints
+
+    ## ingredient availability
+    c_availability = {
+        row["Ingredient"]: h.addConstr(y_pick[row["Ingredient"]] <= 0)
+        for row in data.iter_rows(named=True)
+        if row["Availability"] == 0
+    }
 
     ## ingredient limit if picked
     c_pick_lb = {
@@ -147,7 +155,7 @@ def find_ingredients(data: pl.DataFrame, requirements: Dict) -> Dict:
         for item in requirements["exclude"]
     }
 
-    # inclusive ingredients
+    ## inclusive ingredients
     for item, reqs in requirements["inclusive"].items():
         for type, grp in reqs.items():
             if type == "or":
@@ -176,7 +184,7 @@ def find_ingredients(data: pl.DataFrame, requirements: Dict) -> Dict:
                                 y_pick[row["Ingredient"]] <= y_pick[row2["Ingredient"]]
                             )
 
-    # exclusive ingredients
+    ## exclusive ingredients
     for item, reqs in requirements["exclusive"].items():
         for type, grp in reqs.items():
             if type == "or":
@@ -241,6 +249,17 @@ def find_ingredients(data: pl.DataFrame, requirements: Dict) -> Dict:
             )
         )
 
+    ## max protein
+    elif obj == "Protein":
+        h.minimize(
+            sum(
+                row["Protein (gm)"]
+                / row["Standard Portion (gm)"]
+                * x_qty[row["Ingredient"]]
+                for row in data.iter_rows(named=True)
+            )
+        )
+
     ## min total quantity
     else:
         h.minimize(sum(x_qty[row["Ingredient"]] for row in data.iter_rows(named=True)))
@@ -284,6 +303,9 @@ def find_ingredients(data: pl.DataFrame, requirements: Dict) -> Dict:
             >= 1
         )
 
+    print(f"\nFound {len(solutions.keys())} solution(s)")
+    print(f"\nSolution(s): {solutions}")
+
     return solutions
 
 
@@ -296,7 +318,18 @@ def plan_meal(data: pl.DataFrame, requirements: Dict, output_path: str) -> None:
         output_path (str): Path to save meal plans
     """
 
+    # find optimal ingredients
     solutions = find_ingredients(data=data, requirements=requirements)
+
+    # clear the folder if a solution has been found
+    if len(solutions.keys()) > 0:
+        if not os.path.exists(output_path):
+            os.makedirs(output_path)
+            print(f"\nCreated path: {output_path}")
+        else:
+            shutil.rmtree(output_path)
+            os.makedirs(output_path)
+            print(f"\nCleaned path: {output_path}")
 
     # get meal plan using LLM
     try:
@@ -328,12 +361,13 @@ def plan_meal(data: pl.DataFrame, requirements: Dict, output_path: str) -> None:
             )
 
             try:
-                if not os.path.exists(output_path):
-                    os.makedirs(output_path)
-
                 with open(os.path.join(output_path, f"meal_plan_{opt}.txt"), "w") as f:
                     f.write(response.choices[0].message.content)
-                    f.write(f"\n\nMacronutrients:\n")
+                    f.write("\n\n---\n\nMIP output:\n")
+                    f.write(f"\nOptimal Ingredients:\n")
+                    for item, val in sol["optimal_ingredients"].items():
+                        f.write(f" {item} (gm): {val}\n")
+                    f.write(f"\nMacronutrients:\n")
                     for nut, val in sol["macronutrients"].items():
                         f.write(f" {nut}: {val}\n")
 
